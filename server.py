@@ -1,3 +1,4 @@
+"""Final Project of Emotion Detection for pyhton flask and api"""
 from flask import Flask, request, render_template
 from EmotionDetection.emotion_detection import emotion_detector
 
@@ -5,6 +6,7 @@ app=Flask("EmotionDetector")
 
 @app.route('/emotionDetector')
 def emotion_detect():
+    """ This is route handler function to return result of emotion detection done by the model """
     text=request.args.get('textToAnalyze')
 
     response=emotion_detector(text)
@@ -13,20 +15,21 @@ def emotion_detect():
     fear=response['fear']
     joy=response['joy']
     sadness=response['sadness']
-    dominantEmotion=response['dominant_emotion']
+    dominant_emotion=response['dominant_emotion']
 
-    if dominantEmotion is None:
-        returnText="Invalid text! Please try again!"
+    if dominant_emotion is None:
+        return_text="Invalid text! Please try again!"
     else:
-        returnText=(f"For the given statement, the system response is 'anger': {anger},"
+        return_text=(f"For the given statement, the system response is 'anger': {anger},"
                     f"'disgust': {disgust}, 'fear': {fear}, 'joy': {joy} and 'sadness': {sadness}. "
-                    f"The dominant emotion is {dominantEmotion}.")
+                    f"The dominant emotion is {dominant_emotion}.")
 
-    return returnText
+    return return_text
 
 
 @app.route('/')
 def render_index_page():
+    """This route renders the html template"""
     return render_template("index.html")
 
 if __name__=='__main__':
